@@ -8,6 +8,8 @@ int main(){
     int t;
     cin >> t;
     
+    static int Arr[100001];
+    
     while(t--){
        int n;
        cin >> n;
@@ -20,18 +22,19 @@ int main(){
     6 1
     7 3 
     */
-       vector<pair<int,int>> a(n);
        for (int i=0;i<n;i++){
-            cin >> a[i].first >> a[i].second;
+            int a, b;
+            cin >> a >> b;
+            Arr[a] = b;
         }
     
-        sort(a.begin(), a.end());
+        //sort(a.begin(), a.end());
         
         int res = 1;
-        int min = a[0].second;
-        for(int i=1;i<n;i++){
-            if (a[i].second < min){
-                min = a[i].second;
+        int min = Arr[1];
+        for(int i=2;i<=n;i++){
+            if (Arr[i] < min){
+                min = Arr[i];
                 res ++;
             }
         }
