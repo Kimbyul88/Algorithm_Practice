@@ -1,47 +1,40 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
+using namespace std;
 
-int compare(const void *a, const void *b) {
-    int num1 = *(int*)a;
-    int num2 = *(int *)b;
-
-    if (num1 < num2) return -1;
-    if (num1 > num2) return 1;
-    return 0;
-}
 
 
 int main(void){
-    int n, x;
-    scanf("%d", &n);
-    int* num_arr = (int*)malloc(sizeof(int)*n);
-    for(int i=0;i<n;i++){
-        scanf("%d ", &num_arr[i]);
-    }
-    scanf("%d", &x);
-    //
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int n, target;
+    cin >> n;
     
-    //sorting : quick sort
-    //배열, 사이즈, 타입 사이즈, 비교 함수
-    qsort(num_arr, n, sizeof(int), compare);
+    vector<int> a(n);
     
-    int count=0;
-    int start = 0;
-    int end = n-1;
+    for(int i=0;i<n;i++) cin >> a[i];
+    cin >> target;
     
-    while(start<end){
-        if(num_arr[start]+num_arr[end]>x){
-            end--;
-        }else if(num_arr[start]+num_arr[end] == x){
-            start++; end--;
-            count++;
-        }else{
-            start++;
+    sort(a.begin(), a.end());
+    
+    // 1 2 3 5 7 9 10 11 13
+    
+    int l = 0;
+    int r = n-1;
+    
+    int res = 0;
+    
+    while(l<r){
+        int checker = a[l] + a[r];
+        if(checker == target){
+            res++;
+            l++;
+            r--;
         }
+        else if(checker < target) l++;
+        else r--;
     }
     
-    printf("%d", count);
-    free(num_arr);
+    cout << res;
     
     return 0;
 }
