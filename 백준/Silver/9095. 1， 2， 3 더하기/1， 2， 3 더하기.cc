@@ -1,42 +1,30 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-int dp(int n){
-    //1 = 1
-    //2 = 1+1, 2
-    //3 = 1+1+1, 2+1, 1+2, 3
-    vector<int> arr(n+1);
-    
-    //base step
-    arr[1] = 1;
-    
-    for(int i=2;i<=n;i++){
-        if(i == 2){
-            arr[2] = 2;
-            continue;
-        }
-        if(i == 3){
-            arr[3] = 4;
-            continue;
-        }
-        arr[i] = arr[i-1] + arr[i-2] + arr[i-3];
-    }
-    
-    return arr[n];
-}
 
 int main(void){
-    int count;
-    scanf("%d", &count);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
     
-    vector<int> arr(count);
+    int T;
+    cin >> T;
     
-    for(int i=0;i<count;i++){
-        scanf("%d", &arr[i]);
-        printf("%d\n", dp(arr[i]));
+    while(T--){
+        int n;
+        cin >> n;
+
+        vector<int> dp(n+1, 0);
+        
+        //base case
+        dp[1] = 1; dp[2] = 2; dp[3] = 4;
+        
+        for(int i=4;i<n+1;i++){
+            dp[i] = dp[i-1] + dp[i-2] + dp[i-3];
+        }
+        
+        cout << dp[n] << "\n";
+        
     }
+
     return 0;
 }
