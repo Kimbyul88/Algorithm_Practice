@@ -1,52 +1,22 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
+using namespace std;
 
-typedef struct{
-    int start;
-    int end;
-}ELEMENT;
-
-int compare(const void *a, const void *b) {
-    //end에 따라 정렬
-    ELEMENT* el1 = ((ELEMENT*)a);
-    ELEMENT* el2 = ((ELEMENT*)b);
-
-    if (el1->end < el2->end) return -1;
-    if (el1->end > el2->end) return 1;
-    if(el1->end == el2->end){
-        if(el1->start<el2->start) return -1;
-        if(el1->start>el2->start) return 1;
-        return 0;
-    }
-}
-
-
+int n;
+pair<int, int> s[100005]; 
 
 int main(void){
-    int n;
-    scanf("%d",&n);
-    
-    ELEMENT* arr = (ELEMENT*)malloc(sizeof(ELEMENT)*n); 
-    
-    for(int i=0;i<n;i++){
-        scanf("%d ", &arr[i].start);
-        scanf("%d", &arr[i].end);
-    }
-    //end 순으로 오름차순 정렬
-    qsort(arr,n,sizeof(ELEMENT),compare);
-    
-    //가장 작은 end를 꺼내고 그보다 큰 start를 가지면서 가장 작은 end를 또 꺼내고..
-    int count = 1;
-    int current_end = 0;
-    for(int i=1;i<n;i++){
-        if(arr[i].start<arr[current_end].end){
-            continue;
-        } else{
-            count++;
-            current_end = i;
-        }
-    }
-    
-    printf("%d", count);
-    
+  ios::sync_with_stdio(0);
+  cin.tie(0);
+  cin >> n;
+  for(int i = 0; i < n; i++)
+    cin >> s[i].second >> s[i].first;
+  sort(s,s+n);
+  int ans = 0;
+  int t = 0; // 현재 시간
+  for(int i = 0; i < n; i++){
+    if(t > s[i].second) continue; 
+    ans++;
+    t = s[i].first; 
+  }
+  cout << ans;
 }
