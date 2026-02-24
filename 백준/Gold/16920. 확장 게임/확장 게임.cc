@@ -51,36 +51,41 @@ int main(void){
         }
     }
 
-    for(int i=1;i<=n*m;i++){
-        //큐리스트 비었는지 확인
-        if(isQlistEmpty(qlist)) break;
-        
-        //현재 플레이어 번호
-        int np = (i-1) % p +1;
-        //현재 몇회차?
-        int rd = (i-1) / p + 1;
-        int step = s[np];
-        
-        while(!qlist[np].empty()){
-            Node cur = qlist[np].front(); 
-            //***
-            if(cur.step == rd * s[np]) break;
-            //***
-            qlist[np].pop_front();
-            for(int dir=0;dir<4;dir++){
-                int nx = cur.x + dx[dir];
-                int ny = cur.y + dy[dir];
-                //보드밖
-                if(nx<0||ny<0||nx>=n||ny>=m) continue;
-                // 해당 칸이 '.'이 아니다.
-                if(board[nx][ny]!='.') continue;
-                //보드 바꾸기
-                board[nx][ny] = np + '0';
-                qlist[np].push_back({nx,ny,cur.step+1});
-                pcount[np]++;
+    while(true) {
+    bool allEmpty = true;
+
+    for(int np = 1; np <= p; np++) {
+
+        if(qlist[np].empty()) continue;
+        allEmpty = false;
+
+        for(int move = 0; move < s[np]; move++) {
+
+            int qsize = qlist[np].size();
+            if(qsize == 0) break;
+
+            while(qsize--) {
+                Node cur = qlist[np].front();
+                qlist[np].pop_front();
+
+                for(int dir = 0; dir < 4; dir++) {
+                    int nx = cur.x + dx[dir];
+                    int ny = cur.y + dy[dir];
+
+                    if(nx<0||ny<0||nx>=n||ny>=m) continue;
+                    if(board[nx][ny] != '.') continue;
+
+                    board[nx][ny] = np + '0';
+                    qlist[np].push_back({nx, ny, 0});
+                    pcount[np]++;
+                }
             }
         }
     }
+
+    if(allEmpty) break;
+}
+
   
     for(int i=1;i<=p;i++) cout << pcount[i] << " ";
     
