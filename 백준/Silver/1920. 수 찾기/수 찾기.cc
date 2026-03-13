@@ -1,57 +1,47 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 int main(void){
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
     
-    int n;
+    int n,m;
     cin >> n;
     
-    vector<int> nArr(n);
-    
+    vector<int> A(n);
     for(int i=0;i<n;i++){
-        cin >> nArr[i];
+         cin >> A[i];
     }
-    
-    int m;
     cin >> m;
-     
-    vector<int> mArr(m);
+    vector<int> B(m);
+    for(int i=0;i<m;i++) cin >> B[i];
     
-    for(int i=0;i<m;i++){
-        cin >> mArr[i];
-    }
-    //n 배열 sort
-    sort(nArr.begin(), nArr.end());
+    //일단 A 소트
+    sort(A.begin(), A.end());
     //1 2 3 4 5
     
     for(int i=0;i<m;i++){
-       int start = 0;
-       int end = n-1;
-       bool found = false;
-        
-       while(start<=end){
-            int middle = (start + end) / 2;
-           
-           if(mArr[i]<nArr[middle]){
-               end = middle-1;
-           }
-           else if(mArr[i]>nArr[middle]){
-               start = middle+1;
-           }
-           else{
-              found = true;
+        int start = 0;
+        int end = n-1;
+        bool flag = false;
+        while(start<=end){
+           int mid = (start + end) / 2;
+            //가운데 숫자와 크기비교
+            if(A[mid]>B[i]){
+                end = mid-1;
+            }
+            else if(A[mid] < B[i]){
+                start = mid+1;
+            }
+            else{
+               flag = true;
                break;
-           }
-           
-       }
-        cout << (found ? 1 : 0) << "\n";
+            }
+        }
+        if(flag) cout << 1;
+        else cout << 0;
+        cout << "\n";
     }
-    
     
     return 0;
 }
